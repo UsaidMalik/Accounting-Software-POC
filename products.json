@@ -1,0 +1,12 @@
+{
+  "obsidianSengakuji": {"currentPrice": 25.95, "purchasePrice": 20, "currentInventoryQuantity": 0,
+    "lifetimeRevenue": 0, "lifetimeProfit": 0, "margin": 0, "lifetimeInventorySold": 0, "monthlyTurnoverRate": 0,
+  "inventoryBeginningMonth":  0, "inventoryEndMonth": 0, "lifetimeSalesFromDiscounts": {"0": 0, "10": 0, "20": 0, "30": 0},
+  "monthlyRevenue": 0, "monthlyProfit": 0, "monthlyChangeInProfit": 0, "monthlyChangeInRevenue": 0,
+  "monthlySalesFromDiscounts": {"0": 0, "10": 0, "20": 0, "30": 0},
+    "changeInMonthlySalesFromDiscounts": {"0": 0, "10": 0, "20": 0, "30": 0} },
+
+  "pr2": {"currentPrice": 80, "purchasePrice": 20, "inventoryQuantity": 3},
+
+  "pr13": {"currentPrice": 50, "purchasePrice": 10, "inventoryQuantity": 2}
+}
