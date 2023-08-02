@@ -1,10 +1,11 @@
 import json
 import csv
-from updateProductdata.py import
+from updateProductdata import updateProductData
 
 file_path = 'products.json'
 with open(file_path, 'r') as file:
     products = json.load(file)
+
 
 def updateProductsInventory(products, platformData):
     for i in range(0, len(platformData), 4):
