@@ -1,12 +1,6 @@
 import csv
-import json
-
-
-def openProductsDataJSON():
-    file_path = 'products.json'
-    with open(file_path, 'r') as file:
-        products = json.load(file)
-    return products
+from updateProductdata import parsePlatformDataForUpdating
+from manageProductsJSON import openProductsDataJSON
 
 
 def accountForOrder():
@@ -19,6 +13,9 @@ def accountForOrder():
                             "and repeat for any other platforms: ").replace(" ", "").split(",")
     etsyData, shopifyData, facebookData, date = parseSaleData(saleData)
 
+    parsePlatformDataForUpdating(etsyData, "Etsy", date)
+    parsePlatformDataForUpdating(shopifyData, "Shopify", date)
+    parsePlatformDataForUpdating(facebookData, "facebookData", date)
 
     writeDataToSheet(etsyData, date, 0, 0.9325, accountingSheet)
     writeDataToSheet(shopifyData, date, 14, 0.95, accountingSheet)
@@ -75,7 +72,7 @@ def writeDataToSheet(platformData, date, offset, platformFees, data):
         productQuantity = int(platformData[i + 1])
         productDiscount = float(platformData[i + 2])
         productShippingCost = float(platformData[i + 3])
-        # edit this entire section
+
         for j in range(1, 7):
             data[2][j + offset] = float(data[2][j + offset])
         for k in range(productQuantity):

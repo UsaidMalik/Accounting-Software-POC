@@ -1,3 +1,6 @@
+from manageProductsJSON import *
+
+
 def updateProductData(productID, quantitySold, discount, platform, productsJSON, date, shippingCost):
     platformFees = 1
     if platform == "Shopify":
@@ -12,14 +15,19 @@ def updateProductData(productID, quantitySold, discount, platform, productsJSON,
     product["lifetimeProfit"] = float("lifetimeProfit")
     product["averageLifetimeMargin"] = float(product["averageLifetimeMargin"])
     product["averageLifetimeTurnoverRate"] = float(product["averageLifetimeTurnoverRate"])
+    product["lifetimeShippingCosts"] = float(product["lifetimeShippingCosts"])
+    # intify everything
 
     product["currentInventoryQuantity"] -= quantitySold
     product["lifetimeInventorySold"] += quantitySold
     product["lifetimeRevenue"] += (float(product["currentPrice"]) * discount) * platformFees
     product["lifetimeProfit"] += ((float(product["currentPrice"]) * discount) * platformFees) - \
-                                 float(product["purchasePrice"])
-
+                                 float(product["purchasePrice"] - shippingCost)
+    product["lifetimeShippingCosts"] += shippingCost
     product["averageLifetimeMargin"] = product["lifetimeProfit"]/product["lifetimeRevenue"]
+    #UPDATING BASIC PROPERTIES
+
+# updating month Data
     monthYear = date[0:2] + date[4:7]
     if monthYear in product["monthData"]:
 
@@ -82,17 +90,20 @@ def updateProductData(productID, quantitySold, discount, platform, productsJSON,
 
         product["monthData"][monthYear]["Margin"] = product["monthData"][monthYear]["Profit"] \
                                                     / product["monthData"][monthYear]["Revenue"]
+    # finsih updating month data
 
-        product["percentChangeFromPreviousMonth"][monthYear] = {
-            "percentChangeTurnoverRate": (product["monthData"][monthYear]["turnoverRate"] - previousMonthDateData["turnoverRate"])/
-            previousMonthDateData["turnoverRate"],
-            "percentChangeProfit": (product["monthData"][monthYear]["Profit"] - previousMonthDateData["Profit"])/
-            previousMonthDateData["Profit"],
-            "percentChangeRevenue": (product["monthData"][monthYear]["Revenue"] - previousMonthDateData["Revenue"])/
-            previousMonthDateData["Revenue"],
-            "percentChangeMargin": (product["monthData"][monthYear]["Margin"] - previousMonthDateData["Margin"])/
-            previousMonthDateData["Margin"]
-          }
+# update percent changte data
+    product["percentChangeFromPreviousMonth"][monthYear] = {
+        "percentChangeTurnoverRate": (product["monthData"][monthYear]["turnoverRate"] - previousMonthDateData["turnoverRate"])/
+        previousMonthDateData["turnoverRate"],
+        "percentChangeProfit": (product["monthData"][monthYear]["Profit"] - previousMonthDateData["Profit"])/
+        previousMonthDateData["Profit"],
+        "percentChangeRevenue": (product["monthData"][monthYear]["Revenue"] - previousMonthDateData["Revenue"])/
+        previousMonthDateData["Revenue"],
+        "percentChangeMargin": (product["monthData"][monthYear]["Margin"] - previousMonthDateData["Margin"])/
+        previousMonthDateData["Margin"]
+      }
+    # update percent change data
 
     product["lifetimeSalesDetails"]["Dates"][date] = {
         "priceAtSale": product["currentPrice"],
@@ -102,5 +113,19 @@ def updateProductData(productID, quantitySold, discount, platform, productsJSON,
         "Platform": platform,
         "Profit": ((product["currentPrice"] * discount) * platformFees) - shippingCost - product["purchasePrice"],
     }
+    # update sales data
 
-    return productsJSON
+    # update percent change data
+
+    writeProductsToFile(productsJSON)
+
+
+def parsePlatformDataForUpdating(platformData, platform, date):
+    products = openProductsDataJSON()
+    for i in range(0, len(platformData), 4):
+        productID = platformData[i]
+        productQuantity = int(platformData[i + 1])
+        productDiscount = float(platformData[i + 2])
+        productShippingCost = float(platformData[i + 3])
+        updateProductData(productID, productQuantity, productDiscount,
+                         platform, products, date, productShippingCost)
