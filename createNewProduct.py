@@ -11,9 +11,9 @@ def createProduct():
     else:
         productsJSON[productName] = {
             "dateCreated": productDate,
-            "purchasePrice": productCost,
-            "currentPrice": productCurrentPrice,
-            "currentInventoryQuantity": productCurrentInventory,
+            "purchasePrice": float(productCost),
+            "currentPrice": float(productCurrentPrice),
+            "currentInventoryQuantity": int(productCurrentInventory),
             "currentTurnoverRate": 0,
 
             "lifetimeInventorySold": 0,
@@ -31,8 +31,12 @@ def createProduct():
             "percentChangeFromPreviousMonth": {
             }
           }
-    writeProductsToFile(productsJSON)
 
+    writeProductsToFile(productsJSON[productName], f"Individual Products JSON/{productName}.json")
+    # writing individual product
+
+    writeProductsToFile(productsJSON)
+    # writing to all products file
 
 
 def gatherProductDate():

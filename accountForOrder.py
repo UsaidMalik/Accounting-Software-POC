@@ -1,4 +1,4 @@
-import csv
+from manageAccountingSheet import *
 from updateProductdata import parsePlatformDataForUpdating
 from manageProductsJSON import openProductsDataJSON
 
@@ -21,18 +21,7 @@ def accountForOrder():
     writeDataToSheet(shopifyData, date, 14, 0.95, accountingSheet)
     writeDataToSheet(facebookData, date, 28, 1, accountingSheet)
 
-    with open(accountingSheetName, 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        csv_writer.writerows(accountingSheet)
-
-
-def openAccountingSheet(accountingSheetName):
-    data = []
-    with open(accountingSheetName, newline='') as csvfile:
-        csv_reader = csv.reader(csvfile)
-        for row in csv_reader:
-            data.append(row)
-    return data
+    writeToSheet(accountingSheetName, accountingSheet)
 
 
 def parseSaleData(saleData):

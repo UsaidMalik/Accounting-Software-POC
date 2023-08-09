@@ -1,0 +1,16 @@
+{
+    "dateCreated": "06/02/2023",
+    "purchasePrice": 12.0,
+    "currentPrice": 79.99,
+    "currentInventoryQuantity": 1,
+    "currentTurnoverRate": 0,
+    "lifetimeInventorySold": 0,
+    "lifetimeRevenue": 0,
+    "lifetimeProfit": 0,
+    "averageLifetimeMargin": 0,
+    "lifetimeSalesDetails": {
+        "Dates": {}
+    },
+    "monthData": {},
+    "percentChangeFromPreviousMonth": {}
+}
